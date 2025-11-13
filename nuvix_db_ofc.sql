@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Nov 12, 2025 at 08:06 PM
+-- Generation Time: Nov 13, 2025 at 08:16 PM
 -- Server version: 11.7.2-MariaDB
 -- PHP Version: 8.2.28
 
@@ -42,7 +42,8 @@ INSERT INTO `administradores` (`id_adm`, `nome`, `email`, `senha`) VALUES
 (1, 'mike', 'mk@mk.com', '7110eda4d09e062aa5e4a390b0a572ac0d2c0220'),
 (2, 'Dylan', 'dy@dy.com', '7110eda4d09e062aa5e4a390b0a572ac0d2c0220'),
 (3, 'Guarana', 'guarana@Cha.com', '7110eda4d09e062aa5e4a390b0a572ac0d2c0220'),
-(4, 'Vicky', 'v@v.com', '7110eda4d09e062aa5e4a390b0a572ac0d2c0220');
+(4, 'Vicky', 'v@v.com', '7110eda4d09e062aa5e4a390b0a572ac0d2c0220'),
+(5, 'batata', 'admin@eu', '7110eda4d09e062aa5e4a390b0a572ac0d2c0220');
 
 -- --------------------------------------------------------
 
@@ -218,7 +219,8 @@ CREATE TABLE `jogos` (
 
 INSERT INTO `jogos` (`id_jogo`, `nome`, `descricao`, `preco`, `empresa_game`, `codigo_game`, `imagem`, `imagemcapa`, `imagembanner`, `imagemexemplo1`, `imagemexemplo2`, `imagemexemplo3`, `categorias`, `classificacao`, `avaliacao`) VALUES
 (1, 'Cult of the Lamb', 'Crie seu próprio culto em uma terra de falsos profetas, aventurando-se por regiões misteriosas e diversas para criar uma comunidade fiel de Seguidores da floresta e para propagar sua Palavra e se tornar o único culto verdadeiro.', 64.95, 'Devolver Digital', 'CULT12345', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQTrsnUTD9XNANFMBbn3q4LXldQQ73D2RSc_06PTvjDp5mkgkpBX3VlE9SDM3ryJpuCoDw&usqp=CAU', 'https://cdn.ome.lt/9A67V-ziKTfCpQ_BCK4gY-s-h90=/200x0/smart/extras/capas/cult_of_the_lamb_box_art.jpg', 'https://i.ytimg.com/vi/tY1EYzn_5qY/maxresdefault.jpg', 'https://uploads.jovemnerd.com.br/wp-content/uploads/2022/08/cult_of_the_lamb_review_1__5vu672n.jpg', 'https://uploads.jovemnerd.com.br/wp-content/uploads/2022/08/cultofthelamb_review_3__54801fcw2.jpg', 'https://uploads.jovemnerd.com.br/wp-content/uploads/2022/08/cultofthelamb_review_6__xwc8gy.jpg', NULL, '12', '4.5'),
-(3, 'Lies of P', 'Lies of P é um jogo de ação e RPG ambientado em uma versão sombria e distorcida do conto clássico de Pinóquio. Os jogadores assumem o papel de Pinóquio, um autômato que busca se tornar humano em uma cidade decadente cheia de perigos, monstros e segredos. Com um sistema de combate desafiador e uma narrativa envolvente, Lies of P oferece uma experiência única para os fãs de jogos de ação e aventura.', 249.90, 'NEOWIZ', 'LIES12345', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwGYeEJwD3FIwVxbOouIugjzLryJ4GPPxTQ2Juvii0kFI0BOHOYkRR60kntuVTFmrfE2w&usqp=CAU', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwGYeEJwD3FIwVxbOouIugjzLryJ4GPPxTQ2Juvii0kFI0BOHOYkRR60kntuVTFmrfE2w&usqp=CAU', 'https://www.adrenaline.com.br/wp-content/uploads/2024/03/lies-of-p-912x569.jpg', 'https://www.adrenaline.com.br/wp-content/uploads/2023/09/Lies-of-P-traz-bug-que-pode-quebrar-a-progressao-de-seu-Capitulo-2-912x569.jpg', 'https://cdn.ome.lt/Inl2v_YpNhKZWSCzOMFIZ5tYPcY=/770x0/smart/uploads/conteudo/fotos/lies-of-p-paisagem-sombria.jpg', 'https://i.ytimg.com/vi/jhQsYonkG8Q/maxresdefault.jpg', NULL, '14', '4.7');
+(3, 'Lies of P', 'Lies of P é um jogo de ação e RPG ambientado em uma versão sombria e distorcida do conto clássico de Pinóquio. Os jogadores assumem o papel de Pinóquio, um autômato que busca se tornar humano em uma cidade decadente cheia de perigos, monstros e segredos. Com um sistema de combate desafiador e uma narrativa envolvente, Lies of P oferece uma experiência única para os fãs de jogos de ação e aventura.', 249.90, 'NEOWIZ', 'LIES12345', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwGYeEJwD3FIwVxbOouIugjzLryJ4GPPxTQ2Juvii0kFI0BOHOYkRR60kntuVTFmrfE2w&usqp=CAU', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwGYeEJwD3FIwVxbOouIugjzLryJ4GPPxTQ2Juvii0kFI0BOHOYkRR60kntuVTFmrfE2w&usqp=CAU', 'https://www.adrenaline.com.br/wp-content/uploads/2024/03/lies-of-p-912x569.jpg', 'https://www.adrenaline.com.br/wp-content/uploads/2023/09/Lies-of-P-traz-bug-que-pode-quebrar-a-progressao-de-seu-Capitulo-2-912x569.jpg', 'https://cdn.ome.lt/Inl2v_YpNhKZWSCzOMFIZ5tYPcY=/770x0/smart/uploads/conteudo/fotos/lies-of-p-paisagem-sombria.jpg', 'https://i.ytimg.com/vi/jhQsYonkG8Q/maxresdefault.jpg', NULL, '14', '4.7'),
+(4, 'dgdasj', 'fasdffe', 433.33, 'fdsdgsdg', '323rsefe4643', '70710f5bd18d16238a3c1ce5fa867acc.png', NULL, '98b4059064c2bb67981a41d3c17f747f.png', 'c7d3c6fc1834f179acea47ddd60a589d.png', '504b88eca89bb9c3d173b830ec032351.png', 'f006e442148c6f3bf0c92d68306919fa.png', NULL, '12', '5');
 
 -- --------------------------------------------------------
 
@@ -416,7 +418,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT for table `administradores`
 --
 ALTER TABLE `administradores`
-  MODIFY `id_adm` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_adm` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `carrinho`
@@ -464,7 +466,7 @@ ALTER TABLE `itens_carrinho`
 -- AUTO_INCREMENT for table `jogos`
 --
 ALTER TABLE `jogos`
-  MODIFY `id_jogo` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id do jogo', AUTO_INCREMENT=4;
+  MODIFY `id_jogo` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id do jogo', AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `pagamentos`

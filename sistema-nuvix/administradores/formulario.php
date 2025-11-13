@@ -1,211 +1,209 @@
-<style>
-:root {
-    --bg-dark: #0f121b;
-    /* Fundo principal escuro */
-    --bg-card: #000000;
-    /* Fundo do card/container */
-    --text-light: #f0f2f5;
-    --primary-blue: #00bcd4;
-    /* Cor de destaque (ciano) */
-    --input-bg: #1f232f;
-    /* Fundo dos inputs (azul escuro) */
-    --input-border: #3d4352;
-    --shadow-glow: 0 0 15px rgba(0, 188, 212, 0.3);
-    --nuvix-gray: #1a1a1a;
-    /* Tom mais claro para listras pares (similar à imagem) */
-    --dark-line: #0e0e0e;
-    /* Tom mais escuro para listras ímpares */
-    --gradient-blue: linear-gradient(to right, #00bcd4, #2196F3);
-    /* Gradiente azul */
-}
+<?php
+include "../verificar-autenticacao.php";
 
-body {
-    background-color: var(--bg-dark) !important;
-    color: var(--text-light);
-}
+$pagina = "administradores";
 
-.card-ofc {
-    /* Fundo preto do container principal, sem borda ciano lateral */
-    background-color: var(--bg-card);
-    border-radius: 6px;
-    border: none;
-    /* Removido a borda de 1px solid rgba(0, 188, 212, 0.1) */
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+if (isset($_GET["key"])) {
+    $key = $_GET["key"];
+    require("../requests/administradores/get.php");
+    if (isset($response["data"]) && !empty($response["data"])) {
+        $administrador = $response["data"][0];
+    } else {
+        $administrador = null;
+    }
 }
+?>
 
-.navbar {
-    background-color: var(--bg-card) !important;
-    color: var(--text-light) !important;
-    border-bottom: 1px solid var(--primary-blue);
-}
+<!DOCTYPE html>
+<html lang="pt-BR">
 
-h2,
-h4,
-span,
-label,
-.form-label {
-    color: var(--text-light);
-    font-weight: 700;
-    /* Títulos mais fortes */
-}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastrar Administradores | Nuvix</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
-/* Estilo do título principal "Sistema de Administradores" */
-.header-title {
-    font-size: 1.5rem;
-    font-weight: 700;
-}
+    <style>
+    :root {
+        --bg-dark: #0f121b;
+        --bg-card: #000000;
+        --text-light: #f0f2f5;
+        --primary-blue: #00bcd4;
+        --input-bg: #1f232f;
+        --input-border: #3d4352;
+        --shadow-glow: 0 0 15px rgba(0, 188, 212, 0.3);
+        --nuvix-gray: #303030;
+    }
 
-/* Estilo do subtítulo "Administradores Cadastrados" */
-.subheader-title {
-    font-size: 1.3rem;
-    font-weight: 700;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-}
+    body {
+        background-color: var(--bg-dark) !important;
+        color: var(--text-light);
+    }
 
+    .card-ofc {
+        background-color: var(--bg-card);
+        border-radius: 12px;
+        border: 1px solid rgba(0, 188, 212, 0.1);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    }
 
-/* ======== BOTÕES GRADIENTE (Novo Administrador) ======== */
-.btn-gradient-sm {
-    background: var(--gradient-blue);
-    border: none;
-    color: #ffffff;
-    padding: 5px 10px;
-    border-radius: 4px;
-    font-size: 0.85rem;
-    font-weight: 600;
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    transition: opacity 0.3s ease-in-out;
-}
+    .navbar {
+        background-color: var(--bg-card) !important;
+        color: var(--text-light) !important;
+        border-bottom: 1px solid var(--primary-blue);
+    }
 
-.btn-gradient-sm:hover {
-    color: #fff;
-    opacity: 0.9;
-}
+    h2,
+    label,
+    .form-label {
+        color: var(--text-light);
+        font-weight: 500;
+        display: block;
+        margin-bottom: 0.25rem;
+    }
 
-/* Ajustes para botões de exportação (Excel e PDF) */
-.btn-excel {
-    background-color: #28a745;
-    border: none;
-    color: #ffffff;
-    padding: 5px 10px;
-    border-radius: 4px;
-    font-size: 0.85rem;
-    font-weight: 600;
-    transition: opacity 0.3s ease-in-out;
-}
+    .nuvix-title {
+        font-size: 2.2rem;
+        font-weight: 700;
+        margin-bottom: 2rem;
+        line-height: 1.2;
+    }
 
-.btn-pdf {
-    background-color: #dc3545;
-    border: none;
-    color: #ffffff;
-    padding: 5px 10px;
-    border-radius: 4px;
-    font-size: 0.85rem;
-    font-weight: 600;
-    transition: opacity 0.3s ease-in-out;
-}
+    .nuvix-dark {
+        color: var(--primary-light);
+        font-weight: 900;
+    }
 
-/* ======== TABELA ======== */
-.table-ofc {
-    background-color: var(--bg-card) !important;
-    color: var(--text-light) !important;
-    border: none !important;
-    /* Removendo qualquer borda extra da tabela */
-}
+    .nuvix-title .brand-color {
+        color: var(--primary-blue);
+        font-weight: 900;
+    }
 
-/* Linhas ÍMPARES (mais escuras na imagem) */
-.table-ofc tbody tr:nth-child(odd) {
-    background-color: var(--dark-line) !important;
-    /* Cor mais escura que o fundo do card (similar à imagem) */
-}
+    /* ======== INPUTS ======== */
+    .form-control.bg-dark {
+        background-color: var(--input-bg) !important;
+        color: var(--text-light) !important;
+        border: 1px solid var(--input-border) !important;
+        border-radius: 6px;
+        padding: 0.75rem 1rem;
+        box-shadow: none !important;
+    }
 
-/* Linhas PARES (mais claras na imagem) */
-.table-ofc tbody tr:nth-child(even) {
-    background-color: var(--nuvix-gray) !important;
-    /* Cor um pouco mais clara que a linha ímpar */
-}
+    .form-control.bg-dark:focus {
+        background-color: var(--input-bg) !important;
+        color: var(--text-light) !important;
+        border-color: var(--primary-blue) !important;
+        box-shadow: 0 0 0 0.2rem rgba(0, 188, 212, 0.3) !important;
+    }
 
-/* Cabeçalho da Tabela */
-.table-ofc thead {
-    /* Usando o gradiente do botão no cabeçalho */
-    background: var(--gradient-blue) !important;
-    color: var(--text-light) !important;
-}
+    /* ======== BOTÕES ======== */
+    .btn-gradient {
+        background: linear-gradient(to right, #00bcd4, #2196F3);
+        border: none;
+        color: #ffffff;
+        padding: 10px 20px;
+        border-radius: 6px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        width: 100%;
+        cursor: pointer;
+        transition: box-shadow 0.3s ease-in-out;
+    }
 
-.table-ofc thead th {
-    border-bottom: none !important;
-    /* Sem borda entre header e body */
-    color: white !important;
-    /* Texto branco no cabeçalho */
-    font-weight: 600;
-    padding: 0.75rem;
-    vertical-align: middle;
-}
+    .btn-gradient:hover {
+        box-shadow: 0 5px 15px rgba(0, 188, 212, 0.4);
+    }
 
-/* ======== DataTables UI (Exibir x, Pesquisar, Paginação) ======== */
-.dataTables_wrapper .dataTables_length,
-.dataTables_wrapper .dataTables_filter,
-.dataTables_wrapper .dataTables_info,
-.dataTables_wrapper .dataTables_paginate {
-    color: var(--text-light) !important;
-}
+    .btn-gradient-sm {
+        background: linear-gradient(to right, #00bcd4, #2196F3);
+        border: none;
+        color: #ffffff;
+        padding: 5px 10px;
+        border-radius: 4px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+    }
 
-.dataTables_wrapper .dataTables_filter input {
-    background-color: var(--input-bg) !important;
-    color: var(--text-light) !important;
-    border: 1px solid var(--input-border) !important;
-    /* Altura menor para o campo de pesquisa */
-    height: 28px;
-}
+    .btn-gradient-sm:hover {
+        color: #fff;
+        opacity: 0.9;
+    }
 
-.dataTables_wrapper .dataTables_length select {
-    background-color: var(--input-bg) !important;
-    color: var(--text-light) !important;
-    border: 1px solid var(--input-border) !important;
-    /* Altura menor para o select */
-    height: 28px;
-}
+    .label-highlight {
+        color: var(--primary-blue);
+        font-weight: 600;
+        display: inline;
+    }
+    </style>
+</head>
 
-/* Paginação Ativa */
-.dataTables_wrapper .dataTables_paginate .paginate_button.current,
-.dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
-    background: var(--gradient-blue) !important;
-    /* Fundo gradiente */
-    border: none !important;
-    color: white !important;
-}
+<body>
+    <?php include "../mensagens.php"; ?>
+    <?php include "../navbar.php"; ?>
 
-/* Paginação Normal/Hover */
-.dataTables_wrapper .dataTables_paginate .paginate_button {
-    background-color: var(--nuvix-gray) !important;
-    /* Fundo cinza */
-    border: none !important;
-    color: var(--text-light) !important;
-    margin: 0 4px;
-    border-radius: 4px;
-    padding: 4px 10px;
-}
+    <div class="container my-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 col-md-8">
+                <div class="card-ofc p-5">
 
-.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
-    background-color: #3d4352 !important;
-}
+                    <a href="/administradores" class="btn-gradient-sm mb-4" style="width: fit-content;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-arrow-left me-1" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd"
+                                d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z" />
+                        </svg>
+                        Voltar
+                    </a>
 
-/* Botões Editar e Excluir na Tabela */
-.table-ofc .btn-warning {
-    background-color: #ffc107;
-    /* Amarelo Bootstrap */
-    border: none;
-    font-size: 0.75rem;
-    padding: 4px 8px;
-}
+                    <h1 class="nuvix-title">
+                        <span class="nuvix-dark text-light">Nuvix
+                            <span class="brand-color">Cadastro</span>.
+                        </span>
+                    </h1>
 
-.table-ofc .btn-danger {
-    background-color: #dc3545;
-    /* Vermelho Bootstrap */
-    border: none;
-    font-size: 0.75rem;
-    padding: 4px 8px;
-}
-</style>
+                    <form id="administradorForm" action="/administradores/cadastrar.php" method="POST"
+                        enctype="multipart/form-data">
+
+                        <div class="mb-4">
+                            <label for="administradorId">Código de <span
+                                    class="label-highlight">Administrador</span>.</label>
+                            <input type="text" class="form-control bg-dark text-white" id="administradorId"
+                                name="administradorId" readonly style="max-width: 150px;"
+                                value="<?php echo isset($administrador) ? $administrador['id_adm'] : ''; ?>">
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="administradornome">Nome:</label>
+                            <input type="text" class="form-control bg-dark text-white" id="administradornome"
+                                name="administradornome" required
+                                value="<?php echo isset($administrador) ? $administrador['nome'] : ''; ?>">
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="administradoremail">E-mail:</label>
+                            <input type="email" class="form-control bg-dark text-white" id="administradoremail"
+                                name="administradoremail" required
+                                value="<?php echo isset($administrador) ? $administrador['email'] : ''; ?>">
+                        </div>
+
+                        <div class="mb-5">
+                            <label for="administradorsenha">Senha:</label>
+                            <input type="password" class="form-control bg-dark text-white" id="administradorsenha"
+                                name="administradorsenha" required
+                                value="<?php echo isset($administrador) ? $administrador['senha'] : ''; ?>">
+                        </div>
+
+                        <button type="submit" class="btn-gradient">Salvar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
