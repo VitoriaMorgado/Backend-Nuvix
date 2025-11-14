@@ -11,7 +11,7 @@ if(isset($_GET["key"])) {
     // }
     
     // EXCLUIR O CLIENTE
-    require_once "./requests/jogos/delete.php";
+    require_once "../requests/jogos/delete.php";
     $_SESSION["msg"] = $response["message"];
 }
 header("Location: ./");
