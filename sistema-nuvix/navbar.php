@@ -105,8 +105,8 @@
                             href="<?php echo $_SESSION["url"];?>/jogos">Jogos</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link nav-link-nuvix <?php echo $pagina == "dev" ? 'active' : ''; ?>"
-                            href="<?php echo $_SESSION["url"];?>/dev">Desenvolvedores</a>
+                        <a class="nav-link nav-link-nuvix <?php echo $pagina == "users" ? 'active' : ''; ?>"
+                            href="<?php echo $_SESSION["url"];?>/users">Usuarios Nuvix</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link nav-link-nuvix text-danger"

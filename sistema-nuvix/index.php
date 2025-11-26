@@ -107,15 +107,15 @@ $pagina = "home";
                         <div class="card text-bg-dark">
                             <div class="card-body text-center">
                                 <i class="bi bi-joystick" style="font-size: 2rem;"></i>
-                                <h5 class="card-title mt-2">Games
+                                <h5 class="card-title mt-2">Users
                                     <?php
-                                    require("requests/games/get.php");
+                                    require("requests/users/get.php");
                                     ?>
                                     (<?php echo isset($response['data']) ? count($response['data']) : 0;?>)
                                 </h5>
                             </div>
                             <div class="card-footer text-center">
-                                <a href="<?php echo $_SESSION["url"];?>/games" class="btn btn-primary">Acessar</a>
+                                <a href="<?php echo $_SESSION["url"];?>/users" class="btn btn-primary">Acessar</a>
                             </div>
                         </div>
                     </div>

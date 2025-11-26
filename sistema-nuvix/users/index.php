@@ -1,15 +1,12 @@
 <?php
 include "../verificar-autenticacao.php";
 
-$pagina = "jogos";
+$pagina = "users";
 
-// Variável para armazenar o array de jogos
-$jogos = []; 
-
-require("../requests/jogos/get.php"); 
-
-if(isset($response["data"])) {
-    $jogos = $response["data"];
+if (isset($_GET["key"])) {
+    $key = $_GET["key"];
+    require("../requests/users/get.php");
+    $user = (isset($response["data"]) && !empty($response["data"])) ? $response["data"][0] : null;
 }
 ?>
 
@@ -19,7 +16,7 @@ if(isset($response["data"])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Listagem de Jogos | Nuvix</title>
+    <title>Dashboard - Clientes | Nuvix</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css" rel="stylesheet">
 
@@ -100,11 +97,6 @@ if(isset($response["data"])) {
         color: var(--primary-blue);
     }
 
-    .btn-outline-custom.disabled {
-        opacity: 0.5;
-        cursor: not-allowed;
-    }
-
     /* ======== DATATABLES DARK MODE OVERRIDES ======== */
 
     /* Tabela base */
@@ -176,17 +168,21 @@ if(isset($response["data"])) {
         color: #fff;
     }
 
-    /* Imagens na tabela */
-    .game-thumb {
-        width: 60px;
-        height: 40px;
-        object-fit: cover;
-        border-radius: 6px;
-        border: 1px solid var(--input-border);
-        background-color: var(--input-bg);
+    .page-link:hover {
+        background-color: var(--input-border);
+        color: var(--primary-blue);
     }
 
-    /* Ações */
+
+
+    .avatar-table {
+        width: 45px;
+        height: 45px;
+        object-fit: cover;
+        border-radius: 50%;
+        border: 2px solid var(--input-border);
+    }
+
     .action-btn {
         padding: 5px 10px;
         border-radius: 4px;
@@ -217,11 +213,6 @@ if(isset($response["data"])) {
         background: #f44336;
         color: #fff;
     }
-
-    .price-tag {
-        color: #00bcd4;
-        font-weight: 600;
-    }
     </style>
 </head>
 
@@ -231,87 +222,75 @@ if(isset($response["data"])) {
     <div class="container py-5">
         <div class="row justify-content-center">
             <div class="col-12">
-
                 <div class="card-ofc p-4 p-md-5">
 
                     <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mb-4 gap-3">
                         <div>
                             <h1 class="nuvix-title mb-0">
                                 <span class="nuvix-dark">Nuvix
-                                    <span class="brand-color">Jogos</span>.
+                                    <span class="brand-color">Clientes</span>.
                                 </span>
                             </h1>
-                            <p class="text-muted mb-0">Catálogo de jogos disponíveis</p>
+                            <p class="text-muted mb-0">Gerenciamento de clientes</p>
                         </div>
 
                         <div class="d-flex gap-2">
-                            <a href="/jogos/formulario.php" class="btn-gradient-sm">
-                                + Novo Jogo
+                            <a href="/users/formulario.php" class="btn-gradient-sm">
+                                Novo Cliente
                             </a>
                             <div class="btn-group">
-                                <a href="exportar.php"
-                                    class="btn btn-outline-custom btn-sm d-flex align-items-center disabled"
-                                    title="Em breve">Excel</a>
+                                <a href="exportar.php" class="btn btn-outline-custom btn-sm d-flex align-items-center"
+                                    title="Exportar Excel">Excel</a>
                                 <a href="exportar_pdf.php"
-                                    class="btn btn-outline-custom btn-sm d-flex align-items-center disabled"
-                                    title="Em breve">PDF</a>
+                                    class="btn btn-outline-custom btn-sm d-flex align-items-center"
+                                    title="Exportar PDF">PDF</a>
                             </div>
                         </div>
                     </div>
-
                     <div class="table-responsive">
                         <table id="myTable" class="table table-hover align-middle w-100">
                             <thead>
                                 <tr>
                                     <th scope="col">#</th>
-                                    <th scope="col">Imagem</th>
+                                    <th scope="col">Foto</th>
                                     <th scope="col">Nome</th>
-                                    <th scope="col">Empresa</th>
-                                    <th scope="col">Preço</th>
-                                    <th scope="col">Classificação</th>
-                                    <th scope="col">Avaliação</th>
-                                    <th scope="col" class="text-end">Ações</th>
+                                    <th scope="col">E-mail</th>
+                                    <th scope="col">Telefone</th>
+                                    <th scope="col">Data de Cadastro</th>
+                                    <th scope="col" colspan="2" class="text-end">Ações</th>
                                 </tr>
                             </thead>
-                            <tbody id="jogoTableBody">
+                            <tbody id="userTableBody">
                                 <?php
-                                if(!empty($jogos)) { 
-                                    foreach($jogos as $jogo) {
-                                        // Fallback image se não houver
-                                        $imgSrc = !empty($jogo["imagem"]) 
-                                            ? "/jogos/imagens/".$jogo["imagem"] 
-                                            : "https://placehold.co/60x40/1f232f/FFF?text=IMG";
-
+                                $key = null;
+                                require("../requests/users/get.php");
+                                
+                                if (!empty($response) && !empty($response["data"])) {
+                                    foreach ($response["data"] as $user) 
+                                        {
                                         echo '
                                         <tr>
-                                            <td class="text-muted">#'.$jogo["id_jogo"].'</td>
-                                            <td>
-                                                <img src="'.$imgSrc.'" class="game-thumb" alt="Capa">
+                                            <th scope="row">'.$user["id_user"].'</th>
+
+                                            <td><img width="60" src="/users/imagens/'.$user["imagem"].'" class="img-fluid rounded shadow-sm border"></td>
+                                            <td class="fw-semibold">'.$user["nome"].'</td>
+                                            <td>'.$user["email"].'</td>
+                                            <td>'.$user["telefone"].'</td>
+                                            <td>'.$user["data_nascimento"].'</td>
+                                            <td>'.$user["data_criacao"].'</td>
+                                            
+                                            <td class="text-center">
+                                                <a href="/users/formulario.php?key='.$user["id_user"].'" class="btn btn-warning btn-sm mb-1">Editar</a>
                                             </td>
-                                            <td class="fw-semibold text-white">'.$jogo["nome"].'</td>
-                                            <td class="text-muted">'.$jogo["empresa_game"].'</td>
-                                            <td>
-                                                <span class="price-tag">R$ '.number_format($jogo["preco"], 2, ',', '.').'</span>
-                                            </td>
-                                            <td><span class="badge bg-dark border border-secondary">'.$jogo["classificacao"].'</span></td>
-                                            <td>
-                                                <div class="d-flex align-items-center gap-1">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="#FFD700" class="bi bi-star-fill" viewBox="0 0 16 16"><path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/></svg>
-                                                    '.$jogo["avaliacao"].'
-                                                </div>
-                                            </td>
-                                            <td class="text-end">
-                                                <a href="/jogos/formulario.php?key='.$jogo["id_jogo"].'" class="action-btn btn-edit me-1">Editar</a>
-                                                <a href="/jogos/remover.php?key='.$jogo["id_jogo"].'" class="action-btn btn-del" onclick="return confirm(\'Tem certeza que deseja remover o jogo '.$jogo["nome"].'?\')">Excluir</a>
+                                            <td class="text-center">
+                                                <a href="/users/remover.php?key='.$user["id_user"].'" class="btn btn-danger btn-sm mb-1">Excluir</a>
                                             </td>
                                         </tr>';
                                     }
                                 } else {
                                     echo '
                                     <tr>
-                                        <td colspan="8" class="text-center py-4 text-muted">
-                                            Nenhum jogo cadastrado no sistema.
-                                        </td>
+                                        <td colspan="7" class="text-center py-4 text-muted">Nenhum cliente cadastrado.</td>
                                     </tr>';
                                 }
                                 ?>
@@ -331,6 +310,7 @@ if(isset($response["data"])) {
 
     <script>
     $(document).ready(function() {
+        // Atualizado para usar o CSS do DataTables v1.13.4 (compatível com o CSS copiado)
         $('#myTable').DataTable({
             language: {
                 url: 'https://cdn.datatables.net/plug-ins/1.13.4/i18n/pt-BR.json'
